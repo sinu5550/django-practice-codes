@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1> <a href="/">Home</a> </h1>
+    <h2> <a href="/first_app/home">First App / Context & Template Filter Practice</a> </h2>
+    <br>
+    <h3>This is Context practice page.</h3>
+    <br>
+    <h1>this is home page</h1>
+    <h2>Author: {{author}}</h2>
+    <h2>Age: {{age}}</h2>
+    <h2>List: {{lst}}</h2>
+
+    <h2>Join: {{ lst | join:" - " }}</h2>
+    <h2>Today: {{ today | date:"D d M Y" }}</h2>
+    <h2>Cut Filter: {{"Python is Fun" | cut:" "}}</h2>
+    <h2>Dicsort Filter: {{ lst2 | dictsort:"name"}}</h2>
+    <h2>Length Filter (list 2 length) : {{ lst2 | length}}</h2>
+    <h2>Upper Filter: {{ 'Happy coding!' | upper}}</h2>
+    <h2>Time Filter: {{today | time:"H:i"}}</h2>
+    <h2>Truncate Filter: {{ 'Happy coding!' | truncatechars:6}}</h2>
+</body>
+
+</html>
