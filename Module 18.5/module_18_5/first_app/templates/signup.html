@@ -4,7 +4,7 @@
 {% block content %}
 {% if messages %}
 {% for m in messages %}
-<P {% if m.tags %} class="bg-{{m.tags}} p-3 text-white w-50 w-50" {% endif %}>{{m}}</P>
+<P {% if m.tags %} class="bg-{{m.tags}} p-3 text-white w-50" {% endif %}>{{m}}</P>
 {% endfor %}
 {% endif %}
 <form method="post" style="width: 50%; margin: auto" novalidate class="lh-sm ">
