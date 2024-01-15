@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="text-center mt-3 mb-5">This is Musicians Dictionary</h3>
+<table class="table table-hover table-bordered ">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Musician Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Album Rating</th>
+            <th scope="col">Instrument Type</th>
+            <th scope="col">Album Name</th>
+            <th scope="col">Release Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for album in a_data %}
+        <tr>
+            <th scope="row">{{album.id}}</th>
+            <td>{{album.musician.first_name}} {{album.musician.last_name}}</td>
+            <td>{{album.musician.email}}</td>
+            <td>{{album.rating}}</td>
+            <td>{{album.musician.instrument_type}}</td>
+            <td>{{album.album_name}}</td>
+            <td>{{album.album_release_date}}</td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}
