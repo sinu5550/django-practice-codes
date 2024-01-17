@@ -9,6 +9,7 @@ from django.views.generic import CreateView, ListView
 from transactions.constants import DEPOSIT, WITHDRAWAL,LOAN, LOAN_PAID
 from datetime import datetime
 from django.db.models import Sum
+from accounts.models import UserBankAccount
 from transactions.forms import (
     DepositForm,
     WithdrawForm,
@@ -79,10 +80,17 @@ class WithdrawMoneyView(TransactionCreateMixin):
 
     def form_valid(self, form):
         amount = form.cleaned_data.get('amount')
+        account = self.request.user.account
 
+        
+
+        if account.isBankrupt:
+            messages.error(
+                self.request, f"""Sorry your account has been Bankrupt""")
+            return redirect("profile")
+        
         self.request.user.account.balance -= form.cleaned_data.get('amount')
-        # balance = 300
-        # amount = 5000
+        
         self.request.user.account.save(update_fields=['balance'])
 
         messages.success(
@@ -194,15 +202,26 @@ class TransferMoneyView(TransactionCreateMixin):
         return initial
 
     def form_valid(self, form):
-        form.transaction_from, form.transaction_to = form.save()
-        amount = form.cleaned_data.get('amount')
+        
+        try:
+            transaction_from, transaction_to,transaction_received = form.save()
+            amount = form.cleaned_data.get('amount')
+        except UserBankAccount.DoesNotExist:
+            messages.error(self.request, 'Error: Account not found.')
+            return redirect('transfer_money')
+        
+        if transaction_from is None or transaction_to is None:
+            messages.error(self.request, 'Error: Transfer failed. Please check the form.')
+        else:
+            messages.success(
+                self.request,
+                f'Successfully transferred {"{:,.2f}".format(float(amount))}$ to another account'
+            )
 
-        messages.success(
-            self.request,
-            f'Successfully transferred {"{:,.2f}".format(float(amount))}$ to another account'
-        )
+        return redirect(self.get_success_url())
 
-        return super().form_valid(form)
+    def get_success_url(self):
+        return self.success_url
 
     def form_invalid(self, form):
         messages.error(self.request, 'Transfer failed. Please check the form.')

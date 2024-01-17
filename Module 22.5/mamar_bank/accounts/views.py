@@ -17,13 +17,13 @@ class UserRegistrationView(FormView):
         user = form.save()
         login(self.request, user)
         print(user)
-        return super().form_valid(form) # form_valid function call hobe jodi sob thik thake
+        return super().form_valid(form) 
     
 
 class UserLoginView(LoginView):
     template_name = 'accounts/user_login.html'
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('profile')
 
 class UserLogoutView(LogoutView):
     def get_success_url(self):
@@ -43,7 +43,7 @@ class UserBankAccountUpdateView(View):
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('profile')  # Redirect to the user's profile page
+            return redirect('profile')  
         return render(request, self.template_name, {'form': form})
     
     
